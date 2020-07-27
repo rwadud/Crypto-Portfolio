@@ -1,0 +1,32 @@
+<%if(currencies.length) {%>
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Market Cap</th>
+        <th scope="col">Volume (24h)</th>
+        <th scope="col">Circulating Supply</th>
+        <th scope="col">Change (24h)</th>
+        <th scope="col">Price Graph (7d)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% let i = 0; currencies.forEach(currency => { i++; %>
+        <tr>
+            <th scope="row"><%=i%></th>
+            <td><img src="<%=currency.icon%>" alt="" width="20"> <a href="/currencies/<%=currency.slug%>"><%=currency.name%></a></td>
+            <td><span class="money" data-value="<%=currency.price%>"><%=formatMoney(currency.price)%></span></td>
+            <td><span class="money" data-value="<%=currency.marketCap%>"><%=formatMoney(currency.marketCap)%></span></td>
+            <td><span class="money" data-value="<%=currency.volume%>"><%=formatMoney(currency.volume)%></span></td>
+            <td><%=currency.supply%></td>
+            <td class="change"><%=currency.change%></td>
+            <td><img src="<%=currency.graph%>" alt="" class="src"></td>
+        </tr>
+    <%})%>
+    </tbody>
+</table>
+<% } else { %>
+<h1> Please allow the scraping service to finish initial startup.</h1>
+<% } %>

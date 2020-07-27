@@ -1,0 +1,51 @@
+<section id="portfolio-page">
+    <div class="row mx-0">
+        <div class="mr-auto" style="position: relative">
+            <span id="portfolio" data-id="<%=portfolio._id%>" class="h1 mr-1"><%=portfolio.name%></span> <span style="position: absolute; top: 10px;"><a href="#" class="edit-portfolio"><i class="fas fa-edit"></i></a></span>
+        </div>
+        <div class="ml-auto mb-2">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCryptoModal">
+                <i class="fas fa-plus"></i> Crypto Currency
+            </button>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+        <div class="row">
+            <% if(portfolio.currencies.size) { %>
+
+            <div class="ml-auto h4">
+               Total: <span class="total money">0.0</span>
+            </div>
+
+                <table class="table" id="portfolio-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Price (USD)</th>
+                        <th scope="col">Value (USD)</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <% for (const [key, value] of portfolio.currencies) { %>
+                        <tr class="crow">
+                            <td class="currency-name" data-id="<%=key%>"></td>
+                            <td class="currency-amount"><%=value%></td>
+                            <td class="currency-price"><span class="money" data-value="0.0">0.00</span></td>
+                            <td class="currency-value"><span class="money" data-value="0.0">0.00</span></td>
+                            <td class="currency-action" align="right"><a href="#" class="edit-currency"><i class="fas fa-edit"></i></a> <a href="#" class="delete-currency"><i class="fas fa-trash-alt" style="color: red"></i></a></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+
+            <% } else { %>
+                <p>You don't have any currencies in this portfolio.</p>
+            <%}%>
+        </div>
+
+    </div>
+</section>

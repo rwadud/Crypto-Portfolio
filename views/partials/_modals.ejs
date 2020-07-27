@@ -1,0 +1,53 @@
+<!-- Create Portfolio Modal -->
+<div class="modal fade" id="createPortfolioModal" tabindex="-1" role="dialog" aria-labelledby="createPortfolioModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPortfolioModalLabel">Create A Portfolio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+            <form id="create-portfolio-form" method="post" action="/portfolios">
+                <div class="modal-body">
+                    <input type="text" name="name" id="portfolio-name" class="form-control validate" placeholder="" required>
+                    <label for="portfolio-name">Portfolio Name</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="create-portfolio-btn" class="btn btn-primary" >Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Currency Modal -->
+<div class="modal fade" id="addCryptoModal" tabindex="-1" role="dialog" aria-labelledby="addCryptoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCryptoModalLabel">Add A Crypto Currency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+            <form id="create-portfolio-form" method="POST" action="?_method=PUT">
+                <div class="modal-body">
+                    <input type="text" name="name" id="currency-name" class="form-control validate" placeholder="">
+                    <label for="currency">Crypto Currency</label>
+                    <input type="number" name="amount" id="amount" class="form-control validate" placeholder="" max="1000000000000000" min="0" step="0.00000001" required>
+                    <label for="amount">Amount</label>
+                    <input type="hidden" name="_method" value="PUT">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="create-portfolio-btn" class="btn btn-primary" >Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

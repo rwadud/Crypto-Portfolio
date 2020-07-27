@@ -1,0 +1,33 @@
+<section id="portfolio-listing">
+    <div class="row mx-0">
+        <div class="mr-auto" style="position: relative">
+            <span class="h3 mr-1"><%=user.name%>'s Portfolio Listing</span>
+        </div>
+        <div class="text-right mb-2">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPortfolioModal">
+                <i class="fas fa-plus"></i> Portfolio
+            </button>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+        <div class="row">
+            <% if(portfolios.length) {  portfolios.forEach(portfolio => { %>
+            <div style="width: 25%;position: relative">
+                <a href="/portfolios/<%=portfolio.id%>" class="custom-card" style="text-decoration: none;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=portfolio.name%></h5>
+                            <p class="card-text">Total: <span class="money" data-value="<%=portfolio.total%>"><%=formatMoney(portfolio.total)%></span></p>
+                        </div>
+                    </div>
+                </a>
+                <span class="delete-portfolio" data-id="<%=portfolio.id%>" style="position: absolute; top: 0; right: 4px; cursor:pointer;"><i class="far fa-trash-alt text-danger"></i></span>
+            </div>
+            <%})%>
+            <% } else { %>
+                <p>You don't seem to have a portfolio.</p>
+            <%}%>
+        </div>
+    </div>
+</section>
