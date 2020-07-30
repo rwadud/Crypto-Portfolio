@@ -1,5 +1,5 @@
-Alexander Nguyen (100908039)
-Redwan Wadud (100873111)
+Alexander Nguyen 
+Redwan Wadud 
 
 Development Enviroment: 
 OS: Ubuntu 18.04 LTS x64
