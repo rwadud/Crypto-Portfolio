@@ -28,4 +28,3 @@ starting the web service.
 You may need to disable adblocker on the browser as it may prevent some of the javascript from working properly.
 
 Local url: http://localhost:3000/
-Deployed url: http://178.128.232.180:3000/
