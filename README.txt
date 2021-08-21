@@ -1,6 +1,3 @@
-Alexander Nguyen 
-Redwan Wadud 
-
 Development Enviroment: 
 OS: Ubuntu 18.04 LTS x64
 Web Server: Node.js 12.16.2 LTS
