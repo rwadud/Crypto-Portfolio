@@ -9,6 +9,10 @@ const CryptoCurrencySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    symbol: {
+        type: String,
+        required: true
+    },
     icon: {
         type: String,
         required: true
@@ -24,6 +28,10 @@ const CryptoCurrencySchema = new mongoose.Schema({
     volume: {
         type: Number,
         required: true
+    },
+    cryptoVolume: {
+        type: String,
+        required: false
     },
     supply: {
         type: String,
