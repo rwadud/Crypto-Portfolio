@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+.env
+.env.*
+.vscode
+.DS_Store
+server.log
+*.log
+docker-compose*.yml
+Dockerfile*
+dockerization-plan.md
+plan.md

@@ -8,4 +8,13 @@ router.get('/', async function(req, res, next) {
   res.render('index', { title: 'Crypto Tracker', currencies: currencies });
 });
 
+/* Health check endpoint */
+router.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date(),
+    environment: process.env.NODE_ENV || 'unknown'
+  });
+});
+
 module.exports = router;

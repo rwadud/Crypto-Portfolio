@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "dev:scraper": "nodemon scrape.js",
+    "scrape": "node scrape.js",
     "debug": "nodemon --inspect ./bin/www --config nodemon.json -L"
   },
   "dependencies": {
