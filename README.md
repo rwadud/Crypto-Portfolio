@@ -1,6 +1,6 @@
 # Crypto Portfolio Tracker
 
-A real-time cryptocurrency portfolio tracking application that scrapes data from CoinMarketCap and provides a web interface for managing crypto portfolios.
+A cryptocurrency portfolio tracking application that scrapes data from CoinMarketCap and provides a web interface for managing crypto portfolios.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ A real-time cryptocurrency portfolio tracking application that scrapes data from
 
 ## Features
 
-- 📊 Real-time cryptocurrency price tracking
+- 📊 Cryptocurrency price tracking
 - 💼 Portfolio management with user authentication
 - 🔄 Automated data scraping every 5 minutes
 - 📈 Price charts and market cap information
