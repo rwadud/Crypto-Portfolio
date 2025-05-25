@@ -34,7 +34,7 @@ router.get('/', async function(req, res, next) {
     const endItem = Math.min(skip + currencies.length, totalCount);
     
     res.render('index', { 
-      title: 'Crypto Tracker', 
+      title: 'Crypto Portfolio Tracker', 
       currencies: currencies,
       pagination: {
         currentPage: page,
@@ -49,7 +49,7 @@ router.get('/', async function(req, res, next) {
   } catch (error) {
     console.error('Error fetching currencies:', error);
     res.render('index', { 
-      title: 'Crypto Tracker', 
+      title: 'Crypto Portfolio Tracker', 
       currencies: [],
       pagination: null
     });

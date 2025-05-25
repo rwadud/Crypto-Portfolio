@@ -179,9 +179,20 @@ $(function(){
 
         //fetch exchange rates
         let data = storage.getItem('exchange-rates');
-        if(!data){
-            data = await fetch('https://openexchangerates.org/api/latest.json?app_id=c44f687831424e329c2ad482c73da448')
+        let dataExpiry = storage.getItem('exchange-rates-expiry');
+        let now = new Date().getTime();
+        
+        // Check if data exists and is not expired (1 hour cache)
+        if(!data || !dataExpiry || now > parseInt(dataExpiry)){
+            data = await fetch('/api/exchange-rates')
                 .then(response => response.json());
+            
+            // Store in localStorage with expiry
+            storage.setItem('exchange-rates', JSON.stringify(data));
+            storage.setItem('exchange-rates-expiry', now + (60 * 60 * 1000)); // 1 hour
+        } else {
+            // Parse stored data
+            data = JSON.parse(data);
         }
 
         if ( typeof fx !== "undefined" && fx.rates ) {

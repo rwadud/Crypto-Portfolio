@@ -108,7 +108,8 @@ class DataExtractor {
             cryptoVolume: null,
             supply: null,
             change: null,
-            graph: null
+            graph: null,
+            isSelfReported: false
         };
 
         try {
@@ -151,6 +152,13 @@ class DataExtractor {
             // Market Cap
             if (columnMap.marketCap !== undefined) {
                 const marketCapCell = this.$(cells[columnMap.marketCap]);
+                
+                // Check if this is self-reported data (neutral4 color)
+                const marketCapParagraph = marketCapCell.find('p[color="neutral4"]');
+                if (marketCapParagraph.length > 0) {
+                    data.isSelfReported = true;
+                }
+                
                 const marketCapText = this.extractFullPrecisionValue(marketCapCell);
                 data.marketCap = DataExtractor.cleanNumericData(marketCapText);
             }
@@ -389,9 +397,18 @@ async function scrapePage(page, pageNumber) {
     let successCount = 0;
     let errorCount = 0;
     
+    let shouldStopScraping = false;
+    
     for (let i = 0; i < rows.length; i++) {
         try {
             const data = extractor.extractRowData(rows[i], columnMap);
+            
+            // Check if we've hit self-reported data
+            if (data.isSelfReported) {
+                console.log(`Page ${pageNumber}, Row ${i + 1}: Encountered self-reported data for ${data.name || 'unknown'}. Stopping scrape.`);
+                shouldStopScraping = true;
+                break;
+            }
             
             // Validate essential data
             if (!data.name || !data.symbol || !data.price) {
@@ -408,7 +425,7 @@ async function scrapePage(page, pageNumber) {
         }
     }
     
-    return { successCount, errorCount, rowCount: rows.length };
+    return { successCount, errorCount, rowCount: rows.length, shouldStopScraping };
 }
 
 /**
@@ -449,6 +466,12 @@ async function scrape() {
                 totalErrors += results.errorCount;
                 
                 console.log(`Page ${pageNum} complete: ${results.successCount} success, ${results.errorCount} errors`);
+                
+                // Stop if we encountered self-reported data
+                if (results.shouldStopScraping) {
+                    console.log(`Stopping pagination due to self-reported data on page ${pageNum}`);
+                    break;
+                }
                 
                 // Stop if we got fewer rows than expected (likely last page)
                 if (results.rowCount < PAGINATION_CONFIG.ITEMS_PER_PAGE) {

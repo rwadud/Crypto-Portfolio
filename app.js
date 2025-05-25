@@ -16,6 +16,7 @@ const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const currenciesRouter = require('./routes/currencies');
 const portfoliosRouter = require('./routes/portfolios');
+const exchangeRatesRouter = require('./routes/exchange-rates');
 
 const app = express();
 
@@ -75,6 +76,7 @@ app.use(function (req, res, next) {
 //Register Routes
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/api/exchange-rates', exchangeRatesRouter);
 app.use('/users', usersRouter);
 app.use('/currencies', currenciesRouter);
 app.use('/portfolios', portfoliosRouter);
