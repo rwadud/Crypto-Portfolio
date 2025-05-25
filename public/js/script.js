@@ -189,7 +189,7 @@ $(function(){
             
             // Store in localStorage with expiry
             storage.setItem('exchange-rates', JSON.stringify(data));
-            storage.setItem('exchange-rates-expiry', now + (60 * 60 * 1000)); // 1 hour
+            storage.setItem('exchange-rates-expiry', now + (2 * 60 * 60 * 1000)); // 2 hours
         } else {
             // Parse stored data
             data = JSON.parse(data);

@@ -3,7 +3,7 @@ const router = express.Router();
 const https = require('https');
 
 // Cache configuration
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
 let cachedData = null;
 let cacheTimestamp = null;
 
