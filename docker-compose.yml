@@ -1,0 +1,28 @@
+version: '3.8' # Specifies the Docker Compose file format version
+
+services:
+  app:
+    build: . # Build the image from the Dockerfile in the current directory
+    ports:
+      - "3000:3000" # Map port 3000 on the host to port 3000 in the container
+    environment:
+      - DATABASE_URL=mongodb://mongo:27017/crypto-tracker
+      # - NODE_ENV=development # Uncomment if you have specific development configurations
+    depends_on:
+      - mongo # Ensures mongo service starts before the app service
+    # volumes: # Optional: For development, mount local code into the container
+      # - .:/usr/src/app # Mounts the current directory to /usr/src/app in the container
+      # - /usr/src/app/node_modules # Exclude node_modules from being overwritten by the host mount
+
+  mongo:
+    image: mongo:6 # Use official MongoDB image, version 6
+    ports:
+      - "27017:27017" # Optional: Map MongoDB port to host if direct access is needed for debugging
+    volumes:
+      - mongo-data:/data/db # Persist MongoDB data in a named volume
+    # environment: # Optional: Set MongoDB username and password
+      # - MONGO_INITDB_ROOT_USERNAME=your_username
+      # - MONGO_INITDB_ROOT_PASSWORD=your_password
+
+volumes:
+  mongo-data: # Defines the named volume for MongoDB data persistence
