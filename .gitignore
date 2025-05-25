@@ -109,6 +109,7 @@ yarn-debug.log
 yarn-error.log
  Nivocal-debug.log*
  Nivocal-error.log*
+*[Pp][Ll][Aa][Nn]*.[Mm][Dd]
 
 # System files
 .DS_Store
