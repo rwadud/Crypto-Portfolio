@@ -3,9 +3,6 @@ version: '3.8'
 services:
   mongodb:
     restart: always
-    ports:
-      - "127.0.0.1:27017:27017"  # Bind only to localhost
-
   web:
     restart: always
     environment:
@@ -16,7 +13,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
   scraper:
     restart: always
     environment:
@@ -24,5 +20,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 512M
+          cpus: '1'
+          memory: 1G

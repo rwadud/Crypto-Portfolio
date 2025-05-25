@@ -198,9 +198,13 @@ async function scrape() {
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
                 '--disable-dev-shm-usage',
-                '--disable-gpu'
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=IsolateOrigins,site-per-process',
+                '--disable-blink-features=AutomationControlled'
             ],
-            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+            protocolTimeout: 60000 // Increase protocol timeout to 60 seconds
         });
         
         const page = await browser.newPage();
@@ -212,10 +216,29 @@ async function scrape() {
         await page.setViewport({ width: 1920, height: 1080 });
         
         console.log('Navigating to', SCRAPE_SOURCE);
-        await page.goto(SCRAPE_SOURCE, {
-            waitUntil: 'networkidle2',
-            timeout: 30000
-        });
+        
+        // Retry navigation up to 3 times
+        let navigationSuccess = false;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                await page.goto(SCRAPE_SOURCE, {
+                    waitUntil: 'networkidle2',
+                    timeout: 60000 // Increase navigation timeout to 60 seconds
+                });
+                navigationSuccess = true;
+                break;
+            } catch (navError) {
+                console.log(`Navigation attempt ${attempt} failed:`, navError.message);
+                if (attempt < 3) {
+                    console.log('Retrying in 5 seconds...');
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                }
+            }
+        }
+        
+        if (!navigationSuccess) {
+            throw new Error('Failed to navigate to page after 3 attempts');
+        }
         
         // Wait for table to load
         await page.waitForSelector('table', { timeout: 10000 });
