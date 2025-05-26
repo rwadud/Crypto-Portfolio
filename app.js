@@ -68,7 +68,25 @@ app.use(function (req, res, next) {
     res.locals.currency = req.cookies.currency;
     res.locals.country = req.cookies.country;
     res.locals.formatMoney = function(x) {
-        return '$'+x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        // Convert to number to handle any string inputs
+        const num = parseFloat(x);
+        
+        // Check if it's a valid number
+        if (isNaN(num)) {
+            return '$0';
+        }
+        
+        // Always show full value with commas
+        if (num >= 1) {
+            // For numbers >= 1, show with commas and no decimals
+            return '$' + Math.round(num).toLocaleString();
+        } else if (num > 0) {
+            // For small numbers < 1, show with appropriate decimals
+            const decimals = Math.max(2, -Math.floor(Math.log10(num)) + 1);
+            return '$' + num.toFixed(Math.min(decimals, 8));
+        } else {
+            return '$0';
+        }
     }
     next();
 });
