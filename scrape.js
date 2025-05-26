@@ -1,3 +1,13 @@
+// Load environment variables
+const path = require('path');
+const envFile = process.env.NODE_ENV === 'production' 
+  ? '.env.production' 
+  : '.env.development';
+
+require('dotenv').config({
+  path: path.resolve(__dirname, envFile)
+});
+
 const cheerio = require('cheerio');
 const cron = require('node-cron');
 const puppeteer = require('puppeteer');
@@ -159,6 +169,7 @@ class DataExtractor {
                     data.isSelfReported = true;
                 }
                 
+                // Get the full precision value
                 const marketCapText = this.extractFullPrecisionValue(marketCapCell);
                 data.marketCap = DataExtractor.cleanNumericData(marketCapText);
             }
@@ -167,8 +178,20 @@ class DataExtractor {
             if (columnMap.volume !== undefined) {
                 const volumeCell = this.$(cells[columnMap.volume]);
                 
-                // Extract monetary volume (USD value)
-                const volumeText = this.extractFullPrecisionValue(volumeCell);
+                // Extract monetary volume (USD value) - use first span (abbreviated)
+                const paragraph = volumeCell.find('p').first();
+                let volumeText = '';
+                if (paragraph.length) {
+                    const spans = paragraph.find('span');
+                    if (spans.length > 0) {
+                        // Use first span which contains abbreviated value like "$47.67B"
+                        volumeText = this.$(spans[0]).text().trim();
+                    } else {
+                        volumeText = paragraph.text().trim();
+                    }
+                } else {
+                    volumeText = volumeCell.find('span, p, div').first().text().trim();
+                }
                 data.volume = DataExtractor.cleanNumericData(volumeText);
                 
                 // Extract crypto volume (e.g., "435.15K BTC")

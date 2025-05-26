@@ -1,7 +1,8 @@
 let mongoose = require('mongoose');
 
-const server = 'localhost:27017';
-const database = 'crypto';
+// Default configuration (used if environment variables not set)
+const DEFAULT_SERVER = 'localhost:27017';
+const DEFAULT_DATABASE = 'crypto';
 
 class Database {
     constructor() {
@@ -9,13 +10,19 @@ class Database {
     }
 
     _connect() {
-        const mongoUri = process.env.MONGODB_URI || `mongodb://${server}/${database}`;
+        // Use MONGODB_URI if available, otherwise construct from individual parts
+        const mongoUri = process.env.MONGODB_URI || 
+                        process.env.DATABASE_URL ||
+                        `mongodb://${process.env.MONGODB_HOST || DEFAULT_SERVER}/${process.env.MONGODB_DATABASE || DEFAULT_DATABASE}`;
+        
+        console.log('Connecting to MongoDB:', mongoUri.replace(/\/\/([^:]+):([^@]+)@/, '//<user>:<pass>@'));
+        
         mongoose.connect(mongoUri)
             .then(() => {
                 console.log('Database connection successful')
             })
             .catch(err => {
-                console.error('Database connection error')
+                console.error('Database connection error:', err.message)
             })
     }
 }

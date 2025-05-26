@@ -19,12 +19,29 @@ services:
       context: .
       target: ${BUILD_TARGET:-development}
     container_name: crypto-web
-    ports:
-      - "3000:3000"
+    # Remove external port mapping - only accessible through nginx
+    expose:
+      - "3000"
     depends_on:
       - mongodb
     environment:
       MONGODB_URI: mongodb://mongodb:27017/crypto
+    networks:
+      - crypto-network
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: crypto-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot-conf:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
     networks:
       - crypto-network
 
@@ -44,6 +61,8 @@ services:
 volumes:
   mongo-data:
   mongo-config:
+  certbot-conf:
+  certbot-www:
 
 networks:
   crypto-network:

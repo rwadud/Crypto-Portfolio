@@ -182,14 +182,29 @@ $(function(){
         let dataExpiry = storage.getItem('exchange-rates-expiry');
         let now = new Date().getTime();
         
-        // Check if data exists and is not expired (1 hour cache)
+        // Check if data exists and is not expired (2 hour cache)
         if(!data || !dataExpiry || now > parseInt(dataExpiry)){
-            data = await fetch('/api/exchange-rates')
-                .then(response => response.json());
+            const response = await fetch('/api/exchange-rates');
             
-            // Store in localStorage with expiry
-            storage.setItem('exchange-rates', JSON.stringify(data));
-            storage.setItem('exchange-rates-expiry', now + (2 * 60 * 60 * 1000)); // 2 hours
+            if (response.ok) {
+                data = await response.json();
+                
+                // Only cache successful responses with valid rates
+                if (data && data.rates) {
+                    storage.setItem('exchange-rates', JSON.stringify(data));
+                    storage.setItem('exchange-rates-expiry', now + (2 * 60 * 60 * 1000)); // 2 hours
+                }
+            } else {
+                console.error('Failed to fetch exchange rates:', response.status);
+                // Try to use cached data even if expired
+                if (data) {
+                    data = JSON.parse(data);
+                    console.log('Using expired cached exchange rates');
+                } else {
+                    // Fallback to USD only
+                    data = { base: 'USD', rates: { USD: 1 } };
+                }
+            }
         } else {
             // Parse stored data
             data = JSON.parse(data);
