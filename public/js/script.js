@@ -179,9 +179,35 @@ $(function(){
 
         //fetch exchange rates
         let data = storage.getItem('exchange-rates');
-        if(!data){
-            data = await fetch('https://openexchangerates.org/api/latest.json?app_id=c44f687831424e329c2ad482c73da448')
-                .then(response => response.json());
+        let dataExpiry = storage.getItem('exchange-rates-expiry');
+        let now = new Date().getTime();
+        
+        // Check if data exists and is not expired (2 hour cache)
+        if(!data || !dataExpiry || now > parseInt(dataExpiry)){
+            const response = await fetch('/api/exchange-rates');
+            
+            if (response.ok) {
+                data = await response.json();
+                
+                // Only cache successful responses with valid rates
+                if (data && data.rates) {
+                    storage.setItem('exchange-rates', JSON.stringify(data));
+                    storage.setItem('exchange-rates-expiry', now + (2 * 60 * 60 * 1000)); // 2 hours
+                }
+            } else {
+                console.error('Failed to fetch exchange rates:', response.status);
+                // Try to use cached data even if expired
+                if (data) {
+                    data = JSON.parse(data);
+                    console.log('Using expired cached exchange rates');
+                } else {
+                    // Fallback to USD only
+                    data = { base: 'USD', rates: { USD: 1 } };
+                }
+            }
+        } else {
+            // Parse stored data
+            data = JSON.parse(data);
         }
 
         if ( typeof fx !== "undefined" && fx.rates ) {

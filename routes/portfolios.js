@@ -36,13 +36,6 @@ router.get('/:id', ensureAuthenticated, async(req, res, next) => {
     } catch (error) {
         next(error);
     }
-    Portfolio.findOne({_id:req.params.id}).then(portfolio => {
-        if(portfolio){
-
-        } else {
-
-        }
-    });
 });
 
 /* Process Create Form
@@ -153,13 +146,15 @@ router.put('/:id', ensureAuthenticated, async(req, res, next) =>  {
 });
 
 /* Delete A Portfolio */
-router.delete('/:id', ensureAuthenticated, function(req, res, next) {
-    Portfolio.deleteOne({ _id:req.params.id}, function (err) {
-        if (err) return next(error);
+router.delete('/:id', ensureAuthenticated, async function(req, res, next) {
+    try {
+        await Portfolio.deleteOne({ _id: req.params.id });
         res.json({
             STATUS: "OK"
         });
-    });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 module.exports = router;

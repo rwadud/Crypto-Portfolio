@@ -1,9 +1,14 @@
 <div class="jumbotron text-center">
     <div class="text-left d-inline-block">
-        <h1><img src="<%=currency.icon%>" alt="<%=currency.name%>"> <%=currency.name%></h1>
+        <h1><img src="<%=currency.icon%>" alt="<%=currency.name%>"> <%=currency.name%> <span class="text-muted"><%=currency.symbol%></span></h1>
         <p><span class="font-weight-bold">Price:</span> <span class="money" data-value="<%=currency.price%>"><%=formatMoney(currency.price)%></span></p>
         <p><span class="font-weight-bold">Market Cap:</span> <span class="money" data-value="<%=currency.marketCap%>"><%=formatMoney(currency.marketCap)%></span></p>
-        <p><span class="font-weight-bold">Volume (24h):</span> <span class="money" data-value="<%=currency.volume%>"><%=formatMoney(currency.volume)%></span></p>
+        <p><span class="font-weight-bold">Volume (24h):</span> 
+            <span class="money" data-value="<%=currency.volume%>"><%=formatMoney(currency.volume)%></span>
+            <% if (currency.cryptoVolume) { %>
+                <span class="text-muted">/ <%=currency.cryptoVolume%></span>
+            <% } %>
+        </p>
         <p><span class="font-weight-bold">Circulating Supply:</span> <%=currency.supply%></p>
         <p><span class="font-weight-bold">Change (24h):</span> <span class="change"><%=currency.change%></span></p>
     </div>

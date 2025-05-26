@@ -22,3 +22,32 @@ a.custom-card:hover {
 .flags{
     margin: 12px;
 }
+
+/* Dark theme pagination styles */
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    background-color: #2b3e50;
+    border-color: #4e5d6c;
+    color: #ebebeb;
+}
+
+.page-link:hover {
+    background-color: #4e5d6c;
+    border-color: #4e5d6c;
+    color: #fff;
+}
+
+.page-item.active .page-link {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    color: #fff;
+}
+
+.page-item.disabled .page-link {
+    background-color: #2b3e50;
+    border-color: #4e5d6c;
+    color: #6c757d;
+}
