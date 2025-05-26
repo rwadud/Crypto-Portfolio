@@ -13,3 +13,5 @@ docker-compose*.yml
 Dockerfile*
 dockerization-plan.md
 plan.md
+nginx/
+*[Pp][Ll][Aa][Nn]*.[Mm][Dd]
